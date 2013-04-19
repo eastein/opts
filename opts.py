@@ -87,8 +87,15 @@ for n in range(len(squares)) :
 
 	for layer, flip in [(a, False), (b, True)] :
 		params = n2params(n, flip)
-		mp = xy2p(params['x'], params['y'], xadg=edge * .375, yadg = edge * .63)
+		# main letter
+		mp = xy2p(params['x'], params['y'], xadg=edge * .395, yadg = edge * .66)
 		layer.add_text(mp.x, mp.y, params['main'], fontsize=22)
+
+		rp = xy2p(params['x'], params['y'], xadg=edge * .125, yadg = edge * .33)
+		layer.add_text(rp.x, rp.y, params['rev'], fontsize=13)
+
+		vp = xy2p(params['x'], params['y'], xadg=edge * .735, yadg = edge * .33)
+		layer.add_text(vp.x, vp.y, str(params['value']), fontsize=13)
 
 pattern.write('pattern.svg')
 a.write('a.svg')
