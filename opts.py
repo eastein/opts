@@ -20,7 +20,7 @@ vals = {
 	' ' : 0 # no-op padding squares
 }
 
-cols = math.ceil(float(len(squares)) / float(rows))
+cols = int(math.ceil(float(len(squares)) / float(rows)))
 
 def n2params(n, flip) :
 	x = n // rows
@@ -64,7 +64,26 @@ for n in range(4) :
 	pattern.add_line(svgcuts.Line(ps[n], ps[(n + 1) % 4], unit=unit))
 
 # make squares
+
+# position an identity corner (upper left corner of a square)
+
+def xy2p(x, y, xadg=0.0, yadg=0.0) :
+	_x = pad + x * edge + xadg
+	_y = pad + y * edge + yadg
+	return svgcuts.Point(_x, _y)
+
+for x in range(cols) :
+	for y in range(rows) :
+		if y == 0 :
+			a.add_line(svgcuts.Line(xy2p(x, y), xy2p(x + 1, y), unit=unit))
+		if x == 0 :
+			a.add_line(svgcuts.Line(xy2p(x, y), xy2p(x, y + 1), unit=unit))
+
+		a.add_line(svgcuts.Line(xy2p(x + 1, y), xy2p(x + 1, y + 1), unit=unit))
+		a.add_line(svgcuts.Line(xy2p(x, y + 1), xy2p(x + 1, y + 1), unit=unit))
+
 for n in range(len(squares)) :
 	pass
 
 pattern.write('pattern.svg')
+a.write('a.svg')
