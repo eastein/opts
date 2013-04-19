@@ -26,10 +26,10 @@ def n2params(n, flip) :
 	x = n // rows
 	y = n % rows
 	if flip :
-		y = rows - y
+		y = rows - y - 1
 
 	main = squares[n][0]
-	rev = squares[n][0]
+	rev = squares[n][1]
 	
 	if flip :
 		main,rev = rev,main
@@ -83,7 +83,13 @@ for x in range(cols) :
 		a.add_line(svgcuts.Line(xy2p(x, y + 1), xy2p(x + 1, y + 1), unit=unit))
 
 for n in range(len(squares)) :
-	pass
+	# put in writing
+
+	for layer, flip in [(a, False), (b, True)] :
+		params = n2params(n, flip)
+		p = xy2p(params['x'], params['y'], xadg=edge / 2.0, yadg = edge / 2.0)
+		layer.add_text(p.x, p.y, params['main'])
 
 pattern.write('pattern.svg')
 a.write('a.svg')
+b.write('b.svg')
